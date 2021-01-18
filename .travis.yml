@@ -28,11 +28,11 @@ jobs:
       install:
         - cd ./Lab_4/
       script:
-        - docker build -t flox6375/lab4:django-travis .
-        - docker build -t flox6375/lab4:monitor-travis --file Dockerfile.monitor . 
+        - docker build -t bodia1132/lab4:django-travis .
+        - docker build -t bodia1132/lab4:monitor-travis --file Dockerfile.monitor . 
         - docker images
-        - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$D_PASSWORD" | docker login -u "$D_USERNAME" --password-stdin; docker push flox6375/lab4:django-travis; else echo "PR skip deploy"; fi
-        - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$D_PASSWORD" | docker login -u "$D_USERNAME" --password-stdin; docker push flox6375/lab4:monitor-travis; else echo "PR skip deploy"; fi
+        - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$D_PASSWORD" | docker login -u "$D_USERNAME" --password-stdin; docker push bodia1132/lab4:django-travis; else echo "PR skip deploy"; fi
+        - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$D_PASSWORD" | docker login -u "$D_USERNAME" --password-stdin; docker push bodia1132/lab4:monitor-travis; else echo "PR skip deploy"; fi
     - stage: "Build Lab 5"
       name: "Build and run Docker Images"
       services:
