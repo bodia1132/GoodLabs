@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3</title>
+</head>
+<body>
+    <div class="main" id="main">
+        <h1 id="header">Lab 3 Sabitov</h1>
+        <button id="chmode" onclick="changeMode()">Programmer Mode</button>
+    </div>
+</body>
+<style>
+    body {
+        background: rgb(255, 255, 255);
+    }
+    .main {
+        display: flex;
+        flex-direction: column;
+        height: 60em;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main h1 {
+        color: rgb(22, 22, 21);
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-shadow: 2px 0.5px rgb(119, 108, 108);
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .main button {
+        background: black;
+        border-radius: 10px;
+        color: white;
+        padding: 10px 10px;
+    }
+</style>
+
+<script>
+    let check = false;
+    let body = document.getElementsByTagName("BODY")[0]; 
+    let text = document.getElementById("header");
+    let btn = document.getElementById("chmode");
+    changeMode = () => {
+        check = !check;
+        if (check) {
+            text.style.color = "white";
+            body.style.background = "#242424";
+            btn.style.background = 'white';
+            btn.style.color = "black";
+        } else {
+            text.style.color = "rgb(22, 22, 21)";
+            body.style.background = "white";
+            btn.style.background = 'black';
+            btn.style.color = "white";
+        }
+    }
+</script>
+</html>

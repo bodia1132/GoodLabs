@@ -5,43 +5,48 @@ python:
 
 jobs:
   include:
-    - stage: "Build Lab 2."
-      name: "Run tests for Lab 2"
+    - stage: "Build Lab 2"
+      name: "Run tests Lab 2"
       python: 3.8
       install:
-        - cd ./Lab2/
-        - pipenv install
-      script: pipenv run pytest tests/tests.py || true
-    - stage: "Build Lab 3."
-      name: "Run Djungo Server"
+        - cd ./Lab_2/
+        - make install
+      script: make test
+    - stage: "Build Lab 3"
+      name: "Run Djungo Server and test"
       python: 3.8
       install:
-        - cd ./Lab3/
         - pipenv install
-        - pipenv install requests
-        - pipenv install django
-      script: bash ./script/travis-build.sh
-    - stage: "Build Lab 4."
-      name: "Build Docker images & Home task"
+      before_install:
+        - cd ./Lab_3/
+        - chmod +x travis-build.sh
+      script: ./travis-build.sh
+    - stage: "Build Lab 4"
+      name: "Build Docker Images"
       services:
         - docker
       install:
-        - cd ./Lab4/
+        - cd ./Lab_4/
       script:
-        - docker build -t vyacheslavbeltyukov/lab4:django-travis .
+        - docker build -t flox6375/lab4:django-travis .
+        - docker build -t flox6375/lab4:monitor-travis --file Dockerfile.monitor . 
         - docker images
-        - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$MY_PASSWORD" | docker login -u "$MY_USERNAME" --password-stdin; docker push vyacheslavbeltyukov/lab4:django-travis; else echo "PR skip deploy"; fi
-    - stage: "Build Lab 5."
-      name: "Build and run Docker images via make"
+        - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$D_PASSWORD" | docker login -u "$D_USERNAME" --password-stdin; docker push flox6375/lab4:django-travis; else echo "PR skip deploy"; fi
+        - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo "$D_PASSWORD" | docker login -u "$D_USERNAME" --password-stdin; docker push flox6375/lab4:monitor-travis; else echo "PR skip deploy"; fi
+    - stage: "Build Lab 5"
+      name: "Build and run Docker Images"
       services:
         - docker
       install:
-        - cd ./Lab5/
+        - cd ./Lab_5/
         - make app
         - make tests
       script:
         - make run
         - make test-app
+        - echo "$D_PASSWORD" | docker login -u "$D_USERNAME" --password-stdin
+        - make push
 branches:
   only:
     - master
+    - main
